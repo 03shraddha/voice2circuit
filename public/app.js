@@ -112,7 +112,7 @@ async function startRecording() {
 
   // Waveform analyser
   analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 256;
+  analyser.fftSize = 1024;
   source.connect(analyser);
 
   // ScriptProcessor: capture PCM, resample to 24 kHz, send to server
@@ -148,11 +148,11 @@ function stopRecording() {
 // ── Mic button ────────────────────────────────────────────────────────────────
 micBtn.addEventListener('click', async () => {
   if (!recording) {
-    micBtn.textContent = '⏹ Stop';
+    micBtn.querySelector('.mic-label').textContent = 'STOP';
     micBtn.classList.add('recording');
     await startRecording();
   } else {
-    micBtn.textContent = '🎤 Start listening';
+    micBtn.querySelector('.mic-label').textContent = 'REC';
     micBtn.classList.remove('recording');
     stopRecording();
     setStatus('connected', 'Ready');
@@ -220,25 +220,53 @@ function playAudioChunk(base64) {
 
 // ── Waveform visualizer ───────────────────────────────────────────────────────
 function drawWaveform() {
-  if (!analyser) return;
   requestAnimationFrame(drawWaveform);
-
   const ctx2d = waveformCvs.getContext('2d');
   const { width, height } = waveformCvs;
-  const data = new Uint8Array(analyser.frequencyBinCount);
-  analyser.getByteFrequencyData(data);
 
-  ctx2d.clearRect(0, 0, width, height);
-  ctx2d.fillStyle = 'rgba(124,106,245,0.8)';
+  // Phosphor persistence: fade previous frame instead of clearing
+  ctx2d.fillStyle = 'rgba(5, 14, 7, 0.3)';
+  ctx2d.fillRect(0, 0, width, height);
 
-  const barW = width / data.length * 2.5;
-  let x = 0;
-  for (let i = 0; i < data.length; i++) {
-    const barH = (data[i] / 255) * height;
-    ctx2d.fillRect(x, height - barH, barW - 1, barH);
-    x += barW + 1;
-    if (x > width) break;
+  if (!analyser) {
+    // Idle flatline — dim phosphor green center line
+    ctx2d.beginPath();
+    ctx2d.moveTo(0, height / 2);
+    ctx2d.lineTo(width, height / 2);
+    ctx2d.lineWidth = 1;
+    ctx2d.strokeStyle = 'rgba(26, 122, 68, 0.5)';
+    ctx2d.stroke();
+    return;
   }
+
+  const data = new Uint8Array(analyser.fftSize / 2);
+  analyser.getByteTimeDomainData(data);
+
+  const sliceWidth = width / data.length;
+  ctx2d.beginPath();
+  for (let i = 0; i < data.length; i++) {
+    const v = data[i] / 128.0;
+    const y = (v - 1.0) * (height / 2) + height / 2;
+    const x = i * sliceWidth;
+    if (i === 0) ctx2d.moveTo(x, y);
+    else ctx2d.lineTo(x, y);
+  }
+  ctx2d.lineTo(width, height / 2);
+
+  // Outer halo
+  ctx2d.lineWidth = 4;
+  ctx2d.strokeStyle = 'rgba(57, 255, 133, 0.08)';
+  ctx2d.stroke();
+
+  // Mid glow
+  ctx2d.lineWidth = 2;
+  ctx2d.strokeStyle = 'rgba(57, 255, 133, 0.32)';
+  ctx2d.stroke();
+
+  // Bright core
+  ctx2d.lineWidth = 1;
+  ctx2d.strokeStyle = 'rgba(57, 255, 133, 0.92)';
+  ctx2d.stroke();
 }
 
 // ── SVG display ───────────────────────────────────────────────────────────────
@@ -293,3 +321,4 @@ function showError(msg) {
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
 connectWs();
+drawWaveform();
