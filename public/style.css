@@ -5,27 +5,27 @@
 }
 
 :root {
-  --bg:              #f4efe4;
-  --surface:         #ede6d6;
-  --surface-raised:  #e4dbc8;
-  --border:          #c5b49a;
-  --border-bright:   #9a7d5a;
+  --bg:              #f0ead8;
+  --surface:         #e8e0cc;
+  --surface-raised:  #ddd4be;
+  --border:          #bca882;
+  --border-bright:   #8a6840;
   --phosphor:        #39ff85;
   --phosphor-dim:    #1a7a44;
-  --phosphor-glow:   rgba(57, 255, 133, 0.18);
-  --amber:           #a85010;
-  --amber-dim:       #6e380a;
-  --amber-glow:      rgba(168, 80, 16, 0.12);
-  --led-idle:        #b0a090;
-  --led-ready:       #2d8c4e;
-  --led-active:      #a85010;
-  --led-error:       #b82828;
-  --text:            #1a1510;
-  --text-dim:        #7a6858;
+  --phosphor-glow:   rgba(57, 255, 133, 0.2);
+  --amber:           #b05818;
+  --amber-dim:       #7a3e0c;
+  --amber-glow:      rgba(176, 88, 24, 0.14);
+  --led-idle:        #a09080;
+  --led-ready:       #2a9e56;
+  --led-active:      #c46010;
+  --led-error:       #c82828;
+  --text:            #18130e;
+  --text-dim:        #7a6448;
   --text-label:      #7a4010;
-  --grid-line:       rgba(140, 110, 70, 0.18);
-  --paper:           #fffcf5;
-  --paper-line:      rgba(80, 100, 180, 0.10);
+  --grid-line:       rgba(130, 100, 60, 0.16);
+  --paper:           #fffdf6;
+  --paper-line:      rgba(70, 90, 170, 0.09);
 }
 
 /* ── Base ── */
@@ -43,19 +43,20 @@ body {
 .panel-header {
   display: flex;
   align-items: center;
-  gap: 0;
-  height: 56px;
+  height: 64px;
   border-bottom: 2px solid var(--border);
   background: var(--surface);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .header-left {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 20px;
+  gap: 14px;
+  padding: 0 24px;
   border-right: 1px solid var(--border);
   height: 100%;
+  min-width: 220px;
 }
 
 .header-center {
@@ -63,7 +64,7 @@ body {
   align-items: center;
   justify-content: center;
   flex: 1;
-  padding: 0 20px;
+  padding: 0 24px;
   border-right: 1px solid var(--border);
   height: 100%;
 }
@@ -71,45 +72,45 @@ body {
 .header-right {
   display: flex;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 24px;
   height: 100%;
 }
 
 /* ── Status LED ── */
 #status-dot {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--led-idle);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.18);
   flex-shrink: 0;
   transition: background 0.4s, box-shadow 0.4s;
 }
 
 #status-dot.connected {
   background: var(--led-ready);
-  box-shadow: 0 0 4px var(--led-ready), 0 0 10px rgba(45, 140, 78, 0.4);
+  box-shadow: 0 0 5px var(--led-ready), 0 0 12px rgba(42, 158, 86, 0.45);
 }
 
 #status-dot.speaking {
   background: var(--led-active);
-  box-shadow: 0 0 4px var(--led-active), 0 0 10px var(--amber-glow);
+  box-shadow: 0 0 5px var(--led-active), 0 0 12px rgba(196, 96, 16, 0.4);
   animation: led-pulse 1s ease-in-out infinite;
 }
 
 #status-dot.disconnected {
   background: var(--led-error);
-  box-shadow: 0 0 6px rgba(184, 40, 40, 0.5);
+  box-shadow: 0 0 7px rgba(200, 40, 40, 0.55);
 }
 
 @keyframes led-pulse {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.55; }
+  50%       { opacity: 0.5; }
 }
 
 #status-label {
-  font-size: 11px;
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  letter-spacing: 0.1em;
   color: var(--text-dim);
   white-space: nowrap;
 }
@@ -117,9 +118,9 @@ body {
 /* ── App title ── */
 .app-title {
   font-family: 'Orbitron', monospace;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   color: var(--text);
   text-transform: uppercase;
   white-space: nowrap;
@@ -130,46 +131,48 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .scope-label {
   font-size: 9px;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.28em;
   color: var(--text-dim);
   text-transform: uppercase;
 }
 
 #waveform {
-  background: #050e07;
+  background: #040c06;
   border: 1px solid var(--border);
-  border-radius: 2px;
+  border-radius: 3px;
   box-shadow:
-    inset 0 0 10px rgba(0, 0, 0, 0.7),
-    0 0 6px var(--phosphor-glow);
+    inset 0 0 14px rgba(0, 0, 0, 0.75),
+    0 0 8px var(--phosphor-glow),
+    0 1px 3px rgba(0,0,0,0.2);
   display: block;
 }
 
-/* ── Mic button ── */
+/* ── Mic / REC button ── */
 #mic-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: 3px;
-  border: 1px solid var(--border-bright);
+  gap: 10px;
+  padding: 9px 22px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-bright);
   background: var(--surface-raised);
   color: var(--text);
   font-family: 'Share Tech Mono', 'Courier New', monospace;
   font-size: 12px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s, color 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.25);
 }
 
 .mic-icon {
-  width: 9px;
-  height: 9px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--led-idle);
   border: 1px solid rgba(0,0,0,0.2);
@@ -179,30 +182,33 @@ body {
 }
 
 .mic-label {
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
 }
 
 #mic-btn:hover:not(:disabled) {
-  border-color: var(--border-bright);
+  border-color: var(--amber);
   background: var(--surface);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3);
+  color: var(--amber);
 }
 
 #mic-btn.recording {
   border-color: var(--led-error);
-  background: rgba(184, 40, 40, 0.08);
+  background: rgba(200, 40, 40, 0.07);
   color: var(--led-error);
+  box-shadow: 0 0 0 3px rgba(200,40,40,0.08), 0 1px 3px rgba(0,0,0,0.12);
 }
 
 #mic-btn.recording .mic-icon {
   background: var(--led-error);
-  box-shadow: 0 0 6px rgba(184, 40, 40, 0.6);
-  animation: led-pulse 0.75s ease-in-out infinite;
+  box-shadow: 0 0 7px rgba(200, 40, 40, 0.7);
+  animation: led-pulse 0.7s ease-in-out infinite;
 }
 
 #mic-btn:disabled {
-  opacity: 0.35;
+  opacity: 0.32;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* ── Workbench (main area) ── */
@@ -212,13 +218,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 32px;
+  padding: 48px 40px;
   background-color: var(--bg);
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-    linear-gradient(rgba(140, 110, 70, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(140, 110, 70, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(130, 100, 60, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(130, 100, 60, 0.06) 1px, transparent 1px);
   background-size:
     40px 40px,
     40px 40px,
@@ -229,50 +235,50 @@ body {
 /* ── Corner brackets ── */
 .corner-bracket {
   position: absolute;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
 }
 
 .corner-tl {
-  top: 14px;
-  left: 14px;
+  top: 16px;
+  left: 16px;
   border-top:  2px solid var(--border-bright);
   border-left: 2px solid var(--border-bright);
 }
 
 .corner-tr {
-  top: 14px;
-  right: 14px;
+  top: 16px;
+  right: 16px;
   border-top:   2px solid var(--border-bright);
   border-right: 2px solid var(--border-bright);
 }
 
 .corner-bl {
-  bottom: 14px;
-  left: 14px;
+  bottom: 16px;
+  left: 16px;
   border-bottom: 2px solid var(--border-bright);
   border-left:   2px solid var(--border-bright);
 }
 
 .corner-br {
-  bottom: 14px;
-  right: 14px;
+  bottom: 16px;
+  right: 16px;
   border-bottom: 2px solid var(--border-bright);
   border-right:  2px solid var(--border-bright);
 }
 
 /* ── Circuit display ── */
 .circuit-frame {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: auto;
 }
 
-#circuit-display svg {
+#circuit-display > svg {
   max-width: 100%;
   height: auto;
   background-color: var(--paper);
@@ -280,30 +286,42 @@ body {
     linear-gradient(var(--paper-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
   background-size: 20px 20px;
-  border: 1px solid rgba(80, 100, 180, 0.20);
+  border: 1px solid rgba(70, 90, 170, 0.18);
   box-shadow:
-    3px 3px 0 rgba(0, 0, 0, 0.15),
-    6px 6px 0 rgba(0, 0, 0, 0.07);
-  padding: 24px;
+    4px 4px 0 rgba(0, 0, 0, 0.12),
+    8px 8px 0 rgba(0, 0, 0, 0.06);
+  padding: 28px;
 }
 
 /* ── Placeholder ── */
 .placeholder-message {
   text-align: center;
   color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.placeholder-icon {
+  width: 56px;
+  height: 56px;
+  color: var(--border-bright);
+  opacity: 0.5;
 }
 
 .placeholder-message p {
   font-size: 13px;
-  letter-spacing: 0.12em;
-  margin-bottom: 10px;
+  letter-spacing: 0.16em;
   color: var(--text-dim);
 }
 
 .placeholder-message small {
   font-size: 11px;
-  opacity: 0.6;
+  opacity: 0.55;
   font-style: italic;
+  max-width: 380px;
+  line-height: 1.6;
 }
 
 /* ── Render spinner ── */
@@ -311,21 +329,21 @@ body {
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
 .spinner-ring {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border: 2px solid var(--border);
   border-top-color: var(--amber);
   border-radius: 50%;
-  animation: spin 0.9s linear infinite;
+  animation: spin 0.85s linear infinite;
 }
 
 .spinner-label {
   font-size: 11px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: var(--amber);
 }
 
@@ -337,17 +355,18 @@ body {
 .telemetry-bar {
   display: flex;
   align-items: center;
-  height: 40px;
+  height: 44px;
   border-top: 2px solid var(--border);
   background: var(--surface);
   overflow: hidden;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.06);
 }
 
 .telemetry-group {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 16px;
+  gap: 10px;
+  padding: 0 20px;
   border-right: 1px solid var(--border);
   height: 100%;
   white-space: nowrap;
@@ -367,7 +386,7 @@ body {
 
 .telemetry-key {
   font-size: 9px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: var(--text-dim);
   text-transform: uppercase;
   flex-shrink: 0;
@@ -376,7 +395,7 @@ body {
 #circuit-title {
   font-family: 'Orbitron', monospace;
   font-size: 11px;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--text);
 }
 
@@ -391,44 +410,45 @@ body {
 
 /* ── Export button ── */
 .export-btn {
-  padding: 6px 14px;
-  border-radius: 3px;
-  border: 1px solid var(--border-bright);
+  padding: 7px 16px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border-bright);
   background: transparent;
   color: var(--amber);
   font-family: 'Share Tech Mono', 'Courier New', monospace;
   font-size: 10px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 .export-btn:hover:not(:disabled) {
   border-color: var(--amber);
   background: var(--amber-glow);
+  box-shadow: 0 0 8px var(--amber-glow);
 }
 
 .export-btn:disabled {
-  opacity: 0.28;
+  opacity: 0.25;
   cursor: not-allowed;
 }
 
 /* ── Error toast ── */
 #error-toast {
   position: fixed;
-  bottom: 52px;
+  bottom: 56px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fdf0f0;
+  background: #fef0f0;
   color: var(--led-error);
-  border: 1px solid var(--led-error);
-  padding: 10px 20px;
-  border-radius: 3px;
+  border: 1.5px solid var(--led-error);
+  padding: 10px 22px;
+  border-radius: 4px;
   font-family: 'Share Tech Mono', 'Courier New', monospace;
   font-size: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   display: none;
   z-index: 100;
   max-width: 80vw;
-  box-shadow: 0 2px 12px rgba(184, 40, 40, 0.15);
+  box-shadow: 0 3px 14px rgba(200, 40, 40, 0.18);
 }

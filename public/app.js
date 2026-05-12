@@ -282,8 +282,13 @@ function renderSvg(svgString) {
   container.innerHTML = svgString;
   const svgEl = container.querySelector('svg');
   if (svgEl) {
-    svgEl.removeAttribute('width');
-    svgEl.removeAttribute('height');
+    // schemdraw outputs ~100–200pt wide. Scale up to a comfortable display size
+    // (1pt ≈ 1.333px; target the larger dimension at ~600px, minimum scale 4×)
+    const wPt = parseFloat(svgEl.getAttribute('width')) || 150;
+    const hPt = parseFloat(svgEl.getAttribute('height')) || 100;
+    const scale = Math.max(4, 600 / Math.max(wPt, hPt));
+    svgEl.setAttribute('width',  String(Math.round(wPt * scale)));
+    svgEl.setAttribute('height', String(Math.round(hPt * scale)));
     svgEl.style.maxWidth = '100%';
     svgEl.style.height = 'auto';
     circuitDisplay.appendChild(svgEl);

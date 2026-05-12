@@ -21,7 +21,7 @@
   <div class="header-center">
     <div class="scope-housing">
       <span class="scope-label">AUDIO IN</span>
-      <canvas id="waveform" width="200" height="48"></canvas>
+      <canvas id="waveform" width="320" height="52"></canvas>
     </div>
   </div>
 
@@ -41,6 +41,16 @@
 
   <div id="circuit-display" class="circuit-frame">
     <div id="placeholder" class="placeholder-message">
+      <svg class="placeholder-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8"  cy="32" r="4" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="32" cy="16" r="4" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="56" cy="32" r="4" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="32" cy="48" r="4" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="12" y1="32" x2="28" y2="20" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="36" y1="20" x2="52" y2="30" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="52" y1="34" x2="36" y2="44" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+        <line x1="28" y1="44" x2="12" y2="34" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/>
+      </svg>
       <p>AWAITING CIRCUIT DESCRIPTION</p>
       <small>"Connect a 10k resistor from VCC to base of NPN transistor…"</small>
     </div>

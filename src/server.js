@@ -13,7 +13,23 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export function createServer() {
   const app = express();
+  app.use(express.json());
   app.use(express.static(join(__dirname, '..', 'public')));
+
+  // Dev/test endpoint: inject a circuit directly without voice
+  app.post('/api/inject', async (req, res) => {
+    try {
+      const parsed = CircuitDrawing.parse(req.body);
+      currentDrawing = parsed;
+      broadcast({ type: 'rendering' });
+      const result = await renderCircuit(currentDrawing);
+      currentSvg = result.svg;
+      broadcast({ type: 'circuit_update', drawing: currentDrawing, svg: currentSvg });
+      res.json({ ok: true, title: currentDrawing.title, bytes: currentSvg.length });
+    } catch (err) {
+      res.status(400).json({ ok: false, error: err.message });
+    }
+  });
 
   const httpServer = http.createServer(app);
   const wss = new WebSocketServer({ server: httpServer });
