@@ -3,7 +3,7 @@ import { WebSocket } from 'ws';
 import { SYSTEM_PROMPT, REALTIME_TOOLS } from './circuit-tools.js';
 import { summariseDrawing } from './circuit-state.js';
 
-const REALTIME_URL = 'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview';
+const REALTIME_URL = 'wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview-2024-12-17';
 
 export class RealtimeSession extends EventEmitter {
   constructor(apiKey) {
@@ -18,7 +18,6 @@ export class RealtimeSession extends EventEmitter {
     this.ws = new WebSocket(REALTIME_URL, {
       headers: {
         Authorization: `Bearer ${this.apiKey}`,
-        'OpenAI-Beta': 'realtime=v1',
       },
     });
 
