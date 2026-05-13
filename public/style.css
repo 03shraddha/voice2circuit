@@ -43,7 +43,7 @@ body {
 .panel-header {
   display: flex;
   align-items: center;
-  height: 64px;
+  height: 76px;
   border-bottom: 2px solid var(--border);
   background: var(--surface);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
