@@ -271,10 +271,8 @@ function drawWaveform() {
 
 // ── SVG display ───────────────────────────────────────────────────────────────
 function renderSvg(svgString) {
-  // Clear placeholder and spinner
   placeholder.style.display = 'none';
 
-  // Remove previous SVG if any
   const prev = circuitDisplay.querySelector('svg');
   if (prev) prev.remove();
 
@@ -282,15 +280,14 @@ function renderSvg(svgString) {
   container.innerHTML = svgString;
   const svgEl = container.querySelector('svg');
   if (svgEl) {
-    // schemdraw outputs ~100–200pt wide. Scale up to a comfortable display size
-    // (1pt ≈ 1.333px; target the larger dimension at ~600px, minimum scale 4×)
-    const wPt = parseFloat(svgEl.getAttribute('width')) || 150;
-    const hPt = parseFloat(svgEl.getAttribute('height')) || 100;
-    const scale = Math.max(4, 600 / Math.max(wPt, hPt));
-    svgEl.setAttribute('width',  String(Math.round(wPt * scale)));
-    svgEl.setAttribute('height', String(Math.round(hPt * scale)));
-    svgEl.style.maxWidth = '100%';
-    svgEl.style.height = 'auto';
+    // Ensure viewBox exists so CSS can scale while preserving aspect ratio
+    if (!svgEl.getAttribute('viewBox')) {
+      const w = parseFloat(svgEl.getAttribute('width')) || 150;
+      const h = parseFloat(svgEl.getAttribute('height')) || 100;
+      svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    }
+    svgEl.removeAttribute('width');
+    svgEl.removeAttribute('height');
     circuitDisplay.appendChild(svgEl);
   }
 }
